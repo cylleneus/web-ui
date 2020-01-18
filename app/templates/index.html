@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block header %}
+<script src='/static/js/moment.js'></script>
+{% endblock %}
+
+{% block search %}
+<div class="container-fluid pt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card mb3">
+                <div class="card-body">
+                    <form action="/search" method="GET">
+                        <div class="form-group">
+                            <label class="h6 font-weight-bold" for="query">Query</label>
+                            <input autocomplete="off"
+                                   class="form-control"
+                                   id="query"
+                                   name="query"
+                                   placeholder=""
+                                   type="text"
+                                   value="{{ query }}"/>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="collection" name="collection" style="display: none;" value="{{ collection }}">{{ collection }}</textarea>
+                            <label class="h6 font-weight-bold" for="selected">in:</label>
+                            <div class="border rounded pt-3 pb-3" id="selected">
+                                {% for work in works %}
+                                <div class="pl-3"><span class="card-text">{{ work.author }}</span>, <span
+                                        class="card-text font-italic">{{ work.title }}</span> <span
+                                        class="card-text text-muted">({{ work.corpus.name }})</span></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="float-left pr-3">
+                            <a class="btn btn-secondary" href="collection">Collection</a>
+                        </div>
+                        <div class="float-left">
+                            <a class="btn btn-secondary" href="import">Import</a>
+                        </div>
+                        <div class="form-group float-right">
+                            <button class="btn btn-primary" id="submit"
+                                    onclick="document.getElementById('spinner').className = 'spinner-border d-block';"
+                                    type="submit" value="Search">Search
+                            </button>
+                        </div>
+                        <div class="float-right pr-3">
+                            <div class="spinner-border d-none" id="spinner" role="status">
+                                <span class="sr-only">Importing...</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center pt-4">
+        <div class="col-md-9">
+            <div class="card mb-3">
+                <h5 class="card-header">Search history
+                    {% if history %}
+                    <button aria-controls="search-history" aria-expanded="true" class="close"
+                            data-target="#search-history"
+                            data-toggle="collapse" type="button">
+                        <span aria-hidden="true" class="text-dark">&plus;</span></button>
+                    {% endif %}
+                </h5>
+                <div aria-labelledby="search-history" class="collapse" data-parent="#accordion"
+                     id="search-history">
+                    <table class="table w-100">
+                        {% for h in history %}
+                        <tr>
+                            <td><p class="card-text font-weight-bold"><a href="history?id={{ h.id }}">{{ h.query }}</a>
+                            </td>
+                            <td><p class="card-text">{{ h.prettified|truncate(32, True) }}</p>
+                            <td><p class="card-text" id="st">{{ h.dt }}</p></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center pt-2">
+        <div class="col-md-9">
+            <div class="card text-white bg-dark mb-3">
+                <h5 class="card-header" id="how-to-search">How to search
+                    <button aria-controls="query-types" aria-expanded="true" class="close" data-target="#query-types"
+                            data-toggle="collapse" type="button">
+                        <span aria-hidden="true" class="text-light">&plus;</span></button>
+                </h5>
+                <div aria-labelledby="how-to-search" class="card-body collapse" data-parent="#accordion"
+                     id="query-types">
+                    <table class="w-100">
+                        <tr>
+                            <td><p class="card-text"><kbd>'virtutibus'</kbd> word form</p></td>
+                            <td><p class="card-text"><kbd>&lt;dico&gt;</kbd> lemma-based</p>
+                            <td><p class="card-text"><kbd>[en?angry]</kbd> gloss (en, fr, it, es)</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="card-text"><kbd>{611}</kbd> domain-based (DDCS codes)</p></td>
+                            <td><p class="card-text"><kbd>/ablative absolute/</kbd> syntax (LASLA only)</p></td>
+                            <td><p class="card-text"><kbd>:GEN.PL.</kbd> morphology (Leipzig notation)</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="card-text"><kbd>&lt;/::...&gt;</kbd> lexical relation (/, \, +c, -c, <)</p>
+                            </td>
+                            <td colspan="2"><p class="card-text"><kbd>[!::en?...]</kbd> semantic relation (!, @, ~, |,
+                                *, #m, #p, #s, +r, %m, %p, %s, -r, >, ^, $, =)</p></td>
+                        </tr>
+                    </table>
+                    <p class="card-text">Queries can be combined to form complex proximity
+                        and adjacency searches. Enclosing queries within double quotes <kbd>"..."</kbd> requires that
+                        matching words occur in the specified order. Morphological annotations can also be attached to
+                        lemma, gloss, and
+                        semfield queries to filter results: e.g., <kbd>&lt;animus&gt;|ACC.</kbd> will match both <em>animum</em>
+                        and <em>animos</em>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if results %}
+{% for item in results %}
+<div class="container-fluid pb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card result">
+                <div class="card-body">
+                    {{ item|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="container-fluid pb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="float-right pt-2">
+                <div class="h3 float-left pr-2">
+                    <a download="{{ query }}-{{ corpus }}.txt" id="save-link" style="display: none"><i
+                            aria-hidden="true" class="fa fa-file-text text-dark"></i></a>
+                </div>
+                <div class="float-right">
+                    <button class="btn btn-primary btn-block" id="save-all">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<script>
+    (function () {
+        var textFile = null,
+            createTextFile = function (content) {
+                var data = new Blob([content], {type: 'text/plain'});
+
+                if (textFile !== null) {
+                    window.URL.revokeObjectURL(textFile);
+                }
+                textFile = window.URL.createObjectURL(data);
+                return textFile;
+            };
+
+        var save = document.getElementById('save-all');
+        var results = document.getElementsByClassName("result");
+        var content = '';
+        for (var i = 0; i < results.length; i++) {
+            result = results[i];
+            elements = result.getElementsByClassName("exportable");
+            for (var j = 0; j < elements.length; j++) {
+                content += elements[j].innerHTML.replace(/<.*?>/, '') + '\n';
+            }
+            content += '\n\n'
+        }
+        if (save) {
+            save.addEventListener('click', function () {
+                var saveLink = document.getElementById('save-link');
+                var textFile = createTextFile(content);
+                saveLink.setAttribute('href', textFile);
+                saveLink.style.display = 'block'
+            }, false);
+        }
+    })();
+</script>
+{% endblock %}
