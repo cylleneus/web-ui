@@ -42,7 +42,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite="tests",
     tests_require=test_requirements,
-    url="https://github.com/wmshort/cylleneus",
+    url="https://github.com/cylleneus/web-ui",
     version=version,
     zip_safe=False,
 )
