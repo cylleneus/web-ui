@@ -34,20 +34,21 @@ def as_html(highlights):
             href.text,
             flags=re.DOTALL
         )
-        if text.group(2):
-            klass = 'card-text d-block'
-        else:
-            klass = 'card-text'
-        buffer = []
-        for token in text.group(1).split():
-            if re.match(r"<em>(.*?)</em>", token):
-                if buffer:
-                    d.span(' '.join(buffer), klass=f'{klass}')
-                    buffer.clear()
-                em = re.sub(r"<em>(.*?)</em>", r" \1 ", token)
-                d.span(em, klass=f'{klass} text-primary font-weight-bold')
+        if text:
+            if text.group(2):
+                klass = 'card-text d-block'
             else:
-                buffer.append(token)
+                klass = 'card-text'
+            buffer = []
+            for token in text.group(1).split():
+                if re.match(r"<em>(.*?)</em>", token):
+                    if buffer:
+                        d.span(' '.join(buffer), klass=f'{klass}')
+                        buffer.clear()
+                    em = re.sub(r"<em>(.*?)</em>", r" \1 ", token)
+                    d.span(em, klass=f'{klass} text-primary font-weight-bold')
+                else:
+                    buffer.append(token)
 
         # Process post-match context
         post_text = re.search(

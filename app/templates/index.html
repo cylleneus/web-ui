@@ -32,13 +32,22 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="float-left pr-3">
-                            <a class="btn btn-secondary" href="collection">Collection</a>
-                        </div>
-                        <div class="float-left">
-                            <a class="btn btn-secondary" href="import">Import</a>
+                        <label class="h6 font-weight-bold" for="collection-options">Collection</label>
+                        <div id="collection-options">
+                            <div class="float-left pr-3">
+                                <a class="btn btn-secondary" href="collection/select">Select</a>
+                            </div>
+                            <div class="float-left pr-3">
+                                <a class="btn btn-secondary" href="collection/load">Load</a>
+                            </div>
+                            <div class="float-left pr-3">
+                                <a class="btn btn-secondary" href="collection/save">Save</a>
+                            </div>
                         </div>
                         <div class="form-group float-right">
+                            <div class="float-left pr-3">
+                                <a class="btn btn-secondary" href="import">Import</a>
+                            </div>
                             <button class="btn btn-primary" id="submit"
                                     onclick="document.getElementById('spinner').className = 'spinner-border d-block';"
                                     type="submit" value="Search">Search
