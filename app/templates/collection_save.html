@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block header %}
+<script src='/static/js/search.js'></script>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center pt-4">
+    <div class="col-md-9">
+        <div class="card">
+            <h5 class="card-header font-weight-bold">Collection</h5>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">{{ collection.count }} documents</h6>
+                <select class="custom-select" data-live-search="true" id="picker" multiple="multiple">
+                    {% for work in collection.works %}
+                    <option value="{{ work.corpus.name }},{{ work.docix }}">{{ work.author }}, {{ work.title }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-group">
+                    <label class="h6 font-weight-bold" for="name">Name</label>
+                    <input autocomplete="off"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           placeholder=""
+                           required="required"
+                           type="text"
+                           value="{{ name }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center pt-4">
+    <div class="col-md-9">
+        <form action="/" enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+                <div class="input-group">
+                    <textarea id="collection" name="collection" style="display:none;"
+                              value="{{ collection }}"></textarea>
+                    <textarea id="collection-name" name="collection-name" style="display:none;"
+                              value="{{ collection.name }}"></textarea>
+                </div>
+            </div>
+            <div class="form-group float-right">
+                <button class="btn btn-primary" id="submit"
+                        onclick="document.getElementById('collection').value = function() { var selected = []; $('option').each(function (index) { selected.push(this.value); }); return JSON.stringify(selected); }(); document.getElementById('collection-name').value = document.getElementById('name').value;"
+                        type="submit" value="Save">Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+<script>
+    $('#picker').multiselect({
+        templates: {
+            li: '<li><a href="javascript:void(0);"><label class="card-text"></label></a></li>'
+        },
+        selectAllValue: 'multiselect-all',
+        enableCaseInsensitiveFiltering: true,
+        enableFiltering: true
+    });
+</script>
