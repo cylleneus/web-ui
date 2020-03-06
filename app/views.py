@@ -44,7 +44,8 @@ def import_text(corpus, author, title, filename, content):
 
 # TODO: add pagination
 def search_request(collection, query):
-    c = Collection(collection)
+    c = Collection(works=collection)
+
     search = Searcher(c).search(query)
 
     if search.results:
@@ -200,6 +201,7 @@ def search():
     query = form.get('query')
 
     works = []
+
     ids = json.loads(collection)
     for id in ids:
         corpus, n = id.split(',')
