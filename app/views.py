@@ -5,7 +5,7 @@ from pathlib import Path
 from cylleneus import __version__, settings
 from cylleneus.corpus import Corpus, Work
 from cylleneus.search import Collection, Searcher
-from flask import render_template, request
+from flask import render_template, request, session
 
 from .db import Search, SearchResult, db
 from .display import as_html
@@ -17,6 +17,19 @@ for path in Path(settings.CORPUS_DIR).glob('*'):
         _corpora.append(path.name)
 
 _collection = None
+_collection_name = None
+
+
+def parse_collection(collection):
+    works = []
+    docs = json.loads(collection)
+    for doc in docs:
+        corpus, nn = doc.split(',')
+        c = Corpus(corpus)
+        for n in nn.strip('[]').split(', '):
+            w = c.work_by_docix(int(n))
+            works.append(w)
+    return Collection(works=works)
 
 
 def import_text(corpus, author, title, filename, content):
@@ -54,24 +67,26 @@ def search_request(collection, query):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    global _collection
+    global _collection, _collection_name
+    session.permanent = True
 
     form = request.form
-    collection = form.get('collection', None)
 
-    works = []
-    if collection:
-        ids = json.loads(collection)
-        for id in ids:
-            corpus, nn = id.split(',')
-            c = Corpus(corpus)
-            for n in nn.strip('[]').split(', '):
-                w = c.work_by_docix(int(n))
-                works.append(w)
-    _collection = Collection(works=works)
+    collection = form.get('collection', None)
+    if collection is not None:
+        session["collection"] = collection
+    else:
+        collection = session.get("collection", None)
+    _collection = parse_collection(collection) if collection else None
 
     name = form.get('collection-name', None)
-    if name:
+    if name is not None:
+        session["collection-name"] = name
+    else:
+        if collection == "[]":
+            name = session.get("collection-name", None)
+    _collection_name = name if name else None
+    if _collection_name:
         _collection.save(name)
 
     db.connect()
@@ -83,7 +98,7 @@ def index():
     response = {
         'version':    __version__,
         'corpora':    _corpora,
-        'works':      works,
+        'works':      _collection.works if _collection else [],
         'collection': collection,
         'history':    history
     }

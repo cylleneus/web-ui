@@ -1,8 +1,10 @@
 import flask
+import secrets
 
 from .settings import *
 
 app = flask.Flask('app')
+app.secret_key = secrets.token_urlsafe(16)
 
 from . import views
 
