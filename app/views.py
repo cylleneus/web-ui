@@ -12,7 +12,7 @@ from .display import as_html
 from .server import app
 
 _corpora = []
-for path in Path(settings.CORPUS_DIR).glob('*'):
+for path in Path(settings.CORPUS_DIR).glob('*/*'):
     if path.is_dir() and Path(path / 'index').exists():
         _corpora.append(path.name)
 
@@ -221,6 +221,8 @@ def search():
     for id in ids:
         corpus, n = id.split(',')
         c = Corpus(corpus)
+        if not c.is_searchable:
+            c.download()
         w = c.work_by_docix(int(n))
         works.append(w)
 
