@@ -13,7 +13,7 @@ with open("HISTORY.rst") as history_file:
 
 version = "0.0.1"
 
-requirements = ["cylleneus>=0.2.8", "Flask>=1.1.1", "html3>=1.17", "peewee>=3.13.1"]
+requirements = ["cylleneus>=0.2.9", "Flask>=1.1.1", "html3>=1.17", "peewee>=3.13.1"]
 
 setup_requirements = []
 
