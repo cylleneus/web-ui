@@ -2,9 +2,11 @@
 Cylleneus web search interface
 ==============================
 
-.. image:: https://img.shields.io/badge/cylleneus-next--gen%20corpus%20search%20for%20Greek%20and%20Latin-blue.svg
+.. image:: https://img.shields.io/badge/cylleneus-next--gen%20corpus%20search%20for%20ancient%20languages-blue.svg
         :target: https://github.com/wmshort/cylleneus
 
+.. image:: https://travis-ci.org/cylleneus/web-ui.svg?branch=master
+    :target: https://travis-ci.org/cylleneus/web-ui
 
 * Free software: Apache Software License 2.0
 * Documentation: https://cylleneus.readthedocs.io.
