@@ -40,7 +40,7 @@ setup(
     name="cylleneus-web",
     packages=find_packages(),
     setup_requires=setup_requirements,
-    test_suite="tests",
+    test_suite="",
     tests_require=test_requirements,
     url="https://github.com/cylleneus/web-ui",
     version=version,
