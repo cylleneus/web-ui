@@ -4,7 +4,7 @@
 <script src='/static/js/moment.js'></script>
 {% endblock %}
 
-{% block search %}
+{% block content %}
 <div class="container-fluid pt-4">
     <div class="row justify-content-center">
         <div class="col-md-9">
@@ -46,6 +46,9 @@
                         </div>
                         <div class="form-group float-right">
                             <div class="float-left pr-3">
+                                <a class="btn btn-secondary" href="download">Download</a>
+                            </div>
+                            <div class="float-left pr-3">
                                 <a class="btn btn-secondary" href="import">Import</a>
                             </div>
                             <button class="btn btn-primary" id="submit"
@@ -68,10 +71,11 @@
             <div class="card mb-3">
                 <h5 class="card-header">Search history
                     {% if history %}
-                    <button aria-controls="search-history" aria-expanded="true" class="close"
+                    <button aria-controls="search-history" aria-expanded="true" class="float-right btn btn-sm"
                             data-target="#search-history"
                             data-toggle="collapse" type="button">
-                        <span aria-hidden="true" class="text-dark">&plus;</span></button>
+                        <span aria-hidden="true" class="fa fa-plus text-dark"></span>
+                    </button>
                     {% endif %}
                 </h5>
                 <div aria-labelledby="search-history" class="collapse" data-parent="#accordion"
@@ -94,9 +98,10 @@
         <div class="col-md-9">
             <div class="card text-white bg-dark mb-3">
                 <h5 class="card-header" id="how-to-search">How to search
-                    <button aria-controls="query-types" aria-expanded="true" class="close" data-target="#query-types"
+                    <button aria-controls="query-types" aria-expanded="true" class="float-right btn btn-sm"
+                            data-target="#query-types"
                             data-toggle="collapse" type="button">
-                        <span aria-hidden="true" class="text-light">&plus;</span></button>
+                        <span aria-hidden="true" class="fa fa-plus"></span></button>
                 </h5>
                 <div aria-labelledby="how-to-search" class="card-body collapse" data-parent="#accordion"
                      id="query-types">
@@ -129,9 +134,7 @@
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block content %}
 {% if results %}
 {% for item in results %}
 <div class="container-fluid pb-4">
@@ -195,5 +198,20 @@
             }, false);
         }
     })();
+</script>
+<script>
+    $(document).ready(function () {
+        // Add minus icon for collapse element which is open by default
+        $(".collapse.show").each(function () {
+            $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+        });
+
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function () {
+            $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function () {
+            $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        });
+    });
 </script>
 {% endblock %}
