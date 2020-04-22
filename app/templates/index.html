@@ -32,33 +32,43 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        <label class="h6 font-weight-bold" for="collection-options">Collection</label>
-                        <div id="collection-options">
-                            <div class="float-left pr-3">
-                                <a class="btn btn-secondary" href="collection/select">Select</a>
+                        <div class="form-group float-left pr-3">
+                            <label class="h6 font-weight-bold" for="collection-options">Collection</label>
+                            <div id="collection-options">
+                                <div class="float-left pr-3">
+                                    <a class="btn btn-secondary" href="collection/select">Select</a>
+                                </div>
+                                <div class="float-left pr-3">
+                                    <a class="btn btn-secondary" href="collection/load">Load</a>
+                                </div>
+                                <div class="float-left pr-3">
+                                    <a class="btn btn-secondary" href="collection/save">Save</a>
+                                </div>
                             </div>
-                            <div class="float-left pr-3">
-                                <a class="btn btn-secondary" href="collection/load">Load</a>
-                            </div>
-                            <div class="float-left pr-3">
-                                <a class="btn btn-secondary" href="collection/save">Save</a>
+                        </div>
+                        <div class="form-group float-left">
+                            <label class="h6 font-weight-bold" for="corpus-options">Corpus</label>
+                            <div id="corpus-options">
+                                <div class="float-left pr-3">
+                                    <a class="btn btn-secondary" href="download">Download</a>
+                                </div>
+                                <div class="float-left pr-3">
+                                    <a class="btn btn-secondary" href="import">Import</a>
+                                </div>
+                                <div class="float-right pr-3">
+                                    <div class="spinner-border d-none" id="spinner" role="status">
+                                        <span class="sr-only">Importing...</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group float-right">
-                            <div class="float-left pr-3">
-                                <a class="btn btn-secondary" href="download">Download</a>
-                            </div>
-                            <div class="float-left pr-3">
-                                <a class="btn btn-secondary" href="import">Import</a>
-                            </div>
-                            <button class="btn btn-primary" id="submit"
-                                    onclick="document.getElementById('spinner').className = 'spinner-border d-block';"
-                                    type="submit" value="Search">Search
-                            </button>
-                        </div>
-                        <div class="float-right pr-3">
-                            <div class="spinner-border d-none" id="spinner" role="status">
-                                <span class="sr-only">Importing...</span>
+                            <label class="h6 font-weight-bold" for="search-options">&nbsp;</label>
+                            <div id="search-options">
+                                <button class="btn btn-primary" id="submit"
+                                        onclick="document.getElementById('spinner').className = 'spinner-border d-block';"
+                                        type="submit" value="Search">Search
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -127,7 +137,8 @@
                         and adjacency searches. Enclosing queries within double quotes <kbd>"..."</kbd> requires that
                         matching words occur in the specified order. Morphological annotations can also be attached to
                         lemma, gloss, and
-                        semfield queries to filter results: e.g., <kbd>&lt;animus&gt;|ACC.</kbd> will match both <em>animum</em>
+                        semfield queries to filter results: e.g., <kbd>&lt;animus&gt;|ACC.</kbd> will match both
+                        <em>animum</em>
                         and <em>animos</em>.</p>
                 </div>
             </div>
