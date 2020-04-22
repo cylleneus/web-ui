@@ -136,7 +136,7 @@ def collection_save():
     return render_template("collection_save.html", **response)
 
 
-@app.route("/download/", methods=["POST", "GET"])
+@app.route("/download", methods=["POST", "GET"])
 def download_corpora():
     form = request.form
 
