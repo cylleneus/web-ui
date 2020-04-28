@@ -9,23 +9,3 @@ install: pip install -U tox-travis
 
 # Command to run tests, e.g. python setup.py test
 script: tox
-
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
-deploy:
-  provider: pypi
-  distributions: sdist bdist_wheel
-  user: wmshort
-  password:
-    secure: YpRZOH/5larsJVmda+TnUhCdWHZJViwO6ns8T40RGdLKZvbtAbdAX4TDdx6awltQmkToZxp6oKO9QBypDJIIyohdSh1aPcmbWkVr0/eYn+sf2gY8LeNefP
-    qCQ+9MZCe6/KKp//yhHjLYiEUIqA/059MvRXrRuxLUqYFnllwl1o+Wah/g1f60vJmRWSV7RBZQ55caiS/8ffuIzeNMMK6TACHVr8WZDRfOsabpiEhvVLkwe9gb/6YQmr/m
-    i5enPviRiGfjkXIofuDdF8KpjngdmFie5YM4hdw1/AIuq5kOl4MJPLKJYUN6WfHsRMhuCuEd2GjwMB4Lo5veOCQfSFRI92bvu3smGjPgwMKL09aBww4cOG/MfZkehlsVgu
-    cd0HPbSgowtwo8JxKvUfskbZEJJSOO4IFVIqsxX2CWw1roPYaj29f2KQIYbtv/OCBqPv/2ZnCvtcwQFR1R0dKD9U/TH+cIZRwhAIzko1ydIpJ0Qto4VU9gu8K23PBTWjLe
-    NOO9JIgz0k1H1frcsdsKbKwjOAvbLXIXWzW70aHkJusZKkpk7e14hHa/OVInUskawC4Zcjwn03d930D61fnsfBiiO5Hg5qXdNQL7KB9zIup74gfsEzThFmh67Ujrexz7gQ
-    E9LUhaFzDAYsC14d3h2DQOBbZNr829m3mBD4a0cUn3MkI=
-  on:
-    tags: true
-    repo: cylleneus/web-ui
-    python: 3.6
