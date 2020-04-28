@@ -19,12 +19,12 @@ deploy:
   distributions: sdist bdist_wheel
   user: wmshort
   password:
-    secure: IS4gdlliizz/oB9WwhdmJuoHeyL/5tzh6/g3sC9MoTw8wPxQGCDkFz8LDzsZLeqKn/EfHM7K35j5jg98kosmGQyj0N9vQjjyinEQnyy70jjybgdN8qzcl9
-      i+OzhPFCEzXp0ZyRaeVX7zxh0YcHtUonO5WNZwGQDN/rdMZJmKBZM2+Soy+Tb8bgJfH5QEVLSygqiNUWzxXKSK7bbqSVwcrf7hFdwRliBPScF5c3GXpVzF23NzUkTwTXAz
-      /K6AbwccNfJsUKM9AtkMBNUrFPYG7lt9jMfU/tS6hDRWQkOP73uKXovIcB8fezjStBzKSixpeo5mR1f0lGTI3TrZIdEqpzYekyiYakjdaXXk6pb+Y7h+mgNwc6/7FxwvYi
-      k815vDz22r9qfBIsjKfrhmKEgPUkni9smTcSyW0COJxQbr+og7xhcnP/sf3JrjZHCqtGIw/Qgd8Kdzc9S+rTfeANTxa2vsop2E45zNDR8KP9Mc64AVLaHkt9CQ5ow6OzFy
-      9oLPFcFv7yliWMrsyBHEn0lj4Yyh3cFgIbqfWJho+CLBDQ9S7T8ei3uT1y7W3/efEHspQfZaXdH9M9JcColl6x1qNWX6/0q+A7YiFE8jjSTYXDjWhsvOrqLtyA7MThObIL
-      mx+yT+7U0fQqSuZldl0uqWKTdzyRz29epH1wD5s+OpW6o=
+    secure: YpRZOH/5larsJVmda+TnUhCdWHZJViwO6ns8T40RGdLKZvbtAbdAX4TDdx6awltQmkToZxp6oKO9QBypDJIIyohdSh1aPcmbWkVr0/eYn+sf2gY8LeNefP
+    qCQ+9MZCe6/KKp//yhHjLYiEUIqA/059MvRXrRuxLUqYFnllwl1o+Wah/g1f60vJmRWSV7RBZQ55caiS/8ffuIzeNMMK6TACHVr8WZDRfOsabpiEhvVLkwe9gb/6YQmr/m
+    i5enPviRiGfjkXIofuDdF8KpjngdmFie5YM4hdw1/AIuq5kOl4MJPLKJYUN6WfHsRMhuCuEd2GjwMB4Lo5veOCQfSFRI92bvu3smGjPgwMKL09aBww4cOG/MfZkehlsVgu
+    cd0HPbSgowtwo8JxKvUfskbZEJJSOO4IFVIqsxX2CWw1roPYaj29f2KQIYbtv/OCBqPv/2ZnCvtcwQFR1R0dKD9U/TH+cIZRwhAIzko1ydIpJ0Qto4VU9gu8K23PBTWjLe
+    NOO9JIgz0k1H1frcsdsKbKwjOAvbLXIXWzW70aHkJusZKkpk7e14hHa/OVInUskawC4Zcjwn03d930D61fnsfBiiO5Hg5qXdNQL7KB9zIup74gfsEzThFmh67Ujrexz7gQ
+    E9LUhaFzDAYsC14d3h2DQOBbZNr829m3mBD4a0cUn3MkI=
   on:
     tags: true
     repo: cylleneus/web-ui
