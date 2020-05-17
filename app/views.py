@@ -155,7 +155,7 @@ def download_corpora():
             if meta.repo["location"] == "remote"
         ],
         "name":    name if name else "",
-        "success": success if success else ""
+        "success": success if success else "",
     }
     return render_template("download_corpora.html", **response)
 

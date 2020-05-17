@@ -3,7 +3,7 @@ import secrets
 
 from .settings import *
 
-app = flask.Flask('app')
+app = flask.Flask("app")
 app.secret_key = secrets.token_urlsafe(16)
 
 from . import views
@@ -17,7 +17,7 @@ def run():
         port=HOST_PORT,
         debug=DEBUG,
         threaded=not PROCESSES > 1,
-        processes=PROCESSES
+        processes=PROCESSES,
     )
 
 
@@ -25,4 +25,4 @@ def main():
     import webbrowser
 
     run()
-    webbrowser.open_new('http://127.0.0.1:5000/')
+    webbrowser.open_new("http://127.0.0.1:5000/")
