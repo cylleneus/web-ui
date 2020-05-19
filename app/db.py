@@ -16,14 +16,14 @@ class Search(peewee.Model):
     prettified = peewee.TextField()
     minscore = peewee.IntegerField(null=True)
     top = peewee.IntegerField(null=True)
-    start_time = peewee.DateTimeField()
-    end_time = peewee.DateTimeField()
+    start_dt = peewee.DateTimeField()
+    end_dt = peewee.DateTimeField()
     maxchars = peewee.IntegerField(null=True)
     surround = peewee.IntegerField(null=True)
 
     @property
     def dt(self):
-        return dtformat(self.start_time)
+        return dtformat(self.start_dt)
 
     def __str__(self):
         return self.query

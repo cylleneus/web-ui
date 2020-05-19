@@ -256,8 +256,8 @@ def search():
                 prettified=f"{'; '.join(names)}",
                 minscore=results.minscore,
                 top=results.top,
-                start_time=results.start_time,
-                end_time=results.end_time,
+                start_dt=results.start_dt,
+                end_dt=results.end_dt,
                 maxchars=results.maxchars,
                 surround=results.surround,
             )
