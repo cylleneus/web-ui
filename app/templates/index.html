@@ -95,6 +95,8 @@
                         <tr>
                             <td><p class="card-text font-weight-bold"><a href="history?id={{ h.id }}">{{ h.query }}</a>
                             </td>
+                            <td><p class="card-text">{{ h.count_matches }} matches</a>
+                            </td>
                             <td><p class="card-text">{{ h.prettified|truncate(32, True) }}</p>
                             <td><p class="card-text" id="st">{{ h.dt }}</p></td>
                         </tr>
@@ -169,7 +171,7 @@
                             aria-hidden="true" class="fa fa-file-text text-dark"></i></a>
                 </div>
                 <div class="float-right">
-                    <button class="btn btn-primary btn-block" id="save-all">Export</button>
+                    <a class="btn btn-primary" href="export?id={{ id }}">Export</a>
                 </div>
             </div>
         </div>

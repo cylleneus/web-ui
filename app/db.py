@@ -14,6 +14,8 @@ class Search(peewee.Model):
     query = peewee.CharField()
     collection = peewee.TextField()
     prettified = peewee.TextField()
+    count_matches = peewee.IntegerField()
+    count_documents = peewee.IntegerField()
     minscore = peewee.IntegerField(null=True)
     top = peewee.IntegerField(null=True)
     start_dt = peewee.DateTimeField()

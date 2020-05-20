@@ -8,7 +8,7 @@ from cylleneus.search import Collection, Searcher
 from flask import render_template, request, session
 
 from .db import Search, SearchResult, db
-from .display import as_html
+from .display import as_html, as_docx
 from .server import app
 
 _corpora = []
@@ -160,6 +160,36 @@ def download_corpora():
     return render_template("download_corpora.html", **response)
 
 
+@app.route("/export", methods=["POST", "GET"])
+def export():
+    if request.method == "POST":
+        form = request.form
+    else:
+        form = request.args
+
+    id = form.get("id")
+    db.connect()
+    s = Search.get_by_id(id)
+    db.close()
+
+    filename = form.get("filename", None)
+    if filename:
+        success = as_docx(s, filename)
+    else:
+        success = None
+
+    response = {
+        "version":         __version__,
+        "count_matches":   s.count_matches,
+        "count_documents": s.count_documents,
+        "query":           s.query,
+        "filename":        filename if filename else "",
+        "success":         success if success else "",
+        "id":              id
+    }
+    return render_template("export.html", **response)
+
+
 @app.route("/import", methods=["POST", "GET"])
 def _import():
     form = request.form
@@ -201,11 +231,11 @@ def history():
     db.close()
 
     works = []
-    ids = json.loads(s.collection)
-    for id in ids:
-        corpus, n = id.split(",")
+    work_ids = json.loads(s.collection)
+    for work_id in work_ids:
+        corpus, docix = work_id.split(",")
         c = Corpus(corpus)
-        w = c.work_by_docix(int(n))
+        w = c.work_by_docix(int(docix))
         works.append(w)
 
     results = [r.html for r in SearchResult.select().where(SearchResult.search == s)]
@@ -219,6 +249,7 @@ def history():
         "history":    history,
         "results":    results,
         "count":      len(s.results),
+        "id":         id
     }
     return render_template("index.html", **response)
 
@@ -245,6 +276,7 @@ def search():
     results = search_request(works, query)
 
     if results:
+        count_matches, count_documents, _ = results.count
         db.connect()
         try:
             s = (Search.get(query=query, collection=collection),)
@@ -254,6 +286,8 @@ def search():
                 query=query,
                 collection=collection,
                 prettified=f"{'; '.join(names)}",
+                count_matches=count_matches,
+                count_documents=count_documents,
                 minscore=results.minscore,
                 top=results.top,
                 start_dt=results.start_dt,
@@ -284,5 +318,6 @@ def search():
         "history":    history,
         "results":    as_html(results.highlights) if results else [],
         "count":      results.count if results else (0, 0),
+        "id": history[-1].id
     }
     return render_template("index.html", **response)
