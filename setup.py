@@ -11,7 +11,7 @@ with open("README.rst") as readme_file:
 with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
-version = "0.1.1"
+version = "0.1.2"
 
 requirements = ["cylleneus>=0.6.5", "Flask>=1.1.1", "html3>=1.17", "peewee>=3.13.1"]
 
