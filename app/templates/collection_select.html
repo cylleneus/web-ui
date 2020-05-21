@@ -13,7 +13,7 @@
             <div class="card-body">
                 <h6 class="card-subtitle mb-2 text-muted">{{ corpus.doc_count_all }} documents</h6>
                 <select class="custom-select" data-live-search="true" id="picker" multiple="multiple">
-                    {% for docix, doc in corpus.iter_docs() %}
+                    {% for docix, doc in corpus.manifest.items() %}
                     <option value="{{ corpus.name }},{{ docix }}">{{ doc.author }}, {{ doc.title }}</option>
                     {% endfor %}
                 </select>

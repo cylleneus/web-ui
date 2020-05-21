@@ -77,45 +77,52 @@ def as_html(highlights):
 
         d = htm.div(klass="pt-1 exportable", id="text")
         # Process post-match context
-        pre_text = re.search(r"<pre>(.*?)</pre>(\n\n)?", href.text, flags=re.DOTALL)
-        if pre_text:
-            if pre_text.group(2):
-                klass = "card-text d-block"
-            else:
-                klass = "card-text"
-            d.span(pre_text.group(1), klass=f"{klass}")
+        pre_texts = re.finditer(r"<pre>(.*?)</pre>(\n\n)?", href.text, flags=re.DOTALL)
+        if pre_texts:
+            for pre_text in pre_texts:
+                if pre_text.group(2):
+                    klass = "card-text d-block"
+                else:
+                    klass = "card-text"
+                d.span(pre_text.group(1), klass=f"{klass}")
 
         # Process matched text
-        text = re.search(r"<match>(.*?)</match>(\n\n)?", href.text, flags=re.DOTALL)
-        if text:
-            if text.group(2):
-                klass = "card-text d-block"
-            else:
-                klass = "card-text"
-            buffer = []
-            for token in text.group(1).split():
-                if re.match(r"<em>(.*?)</em>", token):
-                    if buffer:
-                        d.span(" ".join(buffer), klass=f"{klass}")
-                        buffer.clear()
-                    em = re.sub(r"<em>(.*?)</em>", r" \1 ", token)
-                    d.span(em, klass=f"{klass} text-primary font-weight-bold")
+        match_texts = re.finditer(r"<match>(.*?)</match>(\n\n)?", href.text, flags=re.DOTALL)
+        if match_texts:
+            for match_text in match_texts:
+                if match_text.group(2):
+                    klass = "card-text d-block"
                 else:
-                    buffer.append(token)
+                    klass = "card-text"
+
+                text = re.sub(r" </em>", "</em> ", match_text.group(1))
+                tokens = text.split()
+
+                buffer = []
+                for token in tokens:
+                    if re.match(r"<em>(.*?)</em>", token):
+                        if buffer:
+                            d.span(" ".join(buffer), klass=f"{klass}")
+                            buffer.clear()
+                        em = re.sub(r"<em>(.*?)</em>", r" \1 ", token, flags=re.DOTALL)
+                        d.span(em, klass=f"{klass} text-primary font-weight-bold")
+                    else:
+                        buffer.append(token)
 
         # Process post-match context
-        post_text = re.search(r"<post>(.*?)</post>(\n\n)?", href.text, flags=re.DOTALL)
-        if post_text:
-            if post_text.group(2):
-                klass = "card-text d-block"
-            else:
-                klass = "card-text"
-            d.span(post_text.group(1), klass=f"{klass}")
+        post_texts = re.finditer(r"<post>(.*?)</post>(\n\n)?", href.text, flags=re.DOTALL)
+        if post_texts:
+            for post_text in post_texts:
+                if post_text.group(2):
+                    klass = "card-text d-block"
+                else:
+                    klass = "card-text"
+                d.span(post_text.group(1), klass=f"{klass}")
 
         # TODO: Add links to full text
-        # if href.urn:
-        #     f = htm.div(klass="float-right")
-        #     p = f.p('more...')
+        # if href.urn != "":
+        #     d = htm.div(klass="float-right")
+        #     p = d.p('more...')
         #     p.a(href=href.urn, klass="card-link exportable")
 
         yield str(htm)
