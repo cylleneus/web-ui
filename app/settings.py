@@ -1,7 +1,7 @@
 from cylleneus import settings
 
 # Debug settings
-DEBUG = settings.DEBUG
+DEBUG = settings.DEBUG_LEVEL
 
 # Server settings
 HOST_PORT = 5000
